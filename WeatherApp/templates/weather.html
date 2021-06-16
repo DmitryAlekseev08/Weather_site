@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap -->
+    <!--
+        .container{
+            background: url(WeatherApp/templates/images/iceland.jpg);
+        }
+        -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        h5{
+            font-family: Lemonade;
+            font-size: 30px;
+        }
+        img{
+            -o-object-fit: cover;
+            object-fit: cover;
+            float: right;
+        }
+        .col-4{
+
+            max-height: 600px;
+            background-color: #F4E9ED;
+            overflow: auto;
+            margin-left: 8%;
+            border-radius: 5px;
+         }
+        .col-3{
+            max-width: 180px;
+            margin-left: 1%;
+         }
+         .col-5{
+            max-height: 150px;
+            margin-left: 0px;
+         }
+         body{
+            background:#F0E3E2;
+         }
+    </style>
+    <title>Weather</title>
+</head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal"><b>Weather</b></h5>
+      <!--<nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="#">Features</a>
+        <a class="p-2 text-dark" href="#">Enterprise</a>
+        <a class="p-2 text-dark" href="#">Support</a>
+      </nav>-->
+      <a class="btn btn-outline-primary" href="https://openweathermap.org/">Source</a>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-5 offset-1">
+                <h1>Weather in the city</h1>
+                <h6>*If the weather information doesn't appear in the history, you entered the city name incorrectly</h6>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.name }}
+                    <input type="submit" name="send" value="Discover" class="mt-2 btn btn-danger">
+                </form>
+            </div>
+             <div class="col-4 offset-1">
+                <h1>History</h1>
+                 {% for info in all_info %}
+                     <div class="alert alert-danger">
+                         <b>City: </b>{{info.city}}<br>
+                         <b>Temperature: </b>{{info.temp}} <sup>o</sup>C
+                         <img src="https://openweathermap.org/img/w/{{info.icon}}.png" alt="Picture" class="img-thumbnail"><br>
+                         <b>Feels like: </b>{{info.feels_like}} <sup>o</sup>C<br>
+                         <b>Pressure: </b>{{info.pressure}} hPa<br>
+                         <b>Humidity: </b>{{info.humidity}} %<br>
+                         <b>Wind: </b>{{info.wind_speed}} m/s {{info.wind_deg}}
+                     </div>
+                 {% endfor %}
+             </div>
+             <div class="col-3 offset-1">
+                 <form action="" method="get">
+                      {% csrf_token %}
+                     <button type="submit" name="count" value=0 class="mt-2 btn btn-danger">Clean history</button><br>
+                     <button type="submit" name="count" value=5 class="mt-2 btn btn-danger">Last 5 queries</button><br>
+                     <button type="submit" name="count" value=10 class="mt-2 btn btn-danger">Last 10 queries</button><br>
+                     <button type="submit" name="count" value=15 class="mt-2 btn btn-danger">Last 15 queries</button>
+                 </form>
+             </div>
+        </div>
+    </div>
+</body>
+</html>
